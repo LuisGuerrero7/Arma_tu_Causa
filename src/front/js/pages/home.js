@@ -4,10 +4,10 @@ import "../../styles/home.css";
 
 const Hero = () => {
 	return (
-		<div class="container my-5 alert alert-success border border-warning">
-			<div class="p-5 text-center bg-body-tertiary rounded-3">
-				<h1 class="text-body-emphasis alert-heading">¿Cansado de los mismos sabores? 🌮 </h1>
-				<p class="lead">
+		<div className="container home-text my-5 border border-warning">
+			<div className="p-5 text-center bg-body-tertiary rounded-3">
+				<h1>¿Cansado de los mismos sabores? 🌮 </h1>
+				<p className="lead">
 					Donde cada taco es una fiesta para tus sentidos 🪅.
 					<br />
 					Prepárate para una explosión de sabores auténticos que te harán decir "¡wow!" en cada bocado.
@@ -41,7 +41,8 @@ const ProductCard = ({ product }) => {
 				minHeight: "400px",
 			}}
 		>
-			<div className="card border border-success flex flex-column h-100">
+			<div className="card flex flex-column h-100 product-card"
+			>
 				<img src={product.image_url} style={{
 					maxHeight: "200px",
 					objectFit: "cover"
@@ -59,7 +60,7 @@ const ProductCard = ({ product }) => {
 				>
 					<h5 className="card-title">{product.name}</h5>
 					<p className="fs-5">{product.description}</p>
-					<a href="#" className="btn btn-outline-success mt-auto">
+					<a href="#" className="btn btn-exitoso mt-auto">
 						Agregar al carrito
 					</a>
 				</div>

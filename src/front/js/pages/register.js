@@ -32,38 +32,38 @@ const Register = () => {
             toast.error("Passwords do not match");
             return;
         }
-        const profileImageUrl = await uploadImage(user.image);
-        await actions.register(user.email, user.fullName, user.password, profileImageUrl);
+        // const profileImageUrl = await uploadImage(user.image);
+        await actions.register(user.email, user.fullName, user.password);   //profileImageUrl --->  await actions.register(user.email, user.fullName, user.password, profileImageUrl);
         navigate("/");
     }
 
-    const uploadImage = async (image) => {
-        const storage = getStorage();
-        const storageRef = ref(storage, `images/${image.name}`);
+    // const uploadImage = async (image) => {
+    //     const storage = getStorage();
+    //     const storageRef = ref(storage, `images/${image.name}`);
 
-        const metadata = {
-            contentType: image.type
-        };
+    //     const metadata = {
+    //         contentType: image.type
+    //     };
 
-        try {
+    //     try {
 
-            const fileData = await uploadBytesResumable(storageRef, image, metadata);
-            const downloadURL = await getDownloadURL(fileData.ref);
+    //         const fileData = await uploadBytesResumable(storageRef, image, metadata);
+    //         const downloadURL = await getDownloadURL(fileData.ref);
 
-            console.log("File available at", downloadURL);
+    //         console.log("File available at", downloadURL);
 
-            setUser({
-                ...user,
-                profileImageUrl: downloadURL,
-                image: null
-            });
+    //         setUser({
+    //             ...user,
+    //             profileImageUrl: downloadURL,
+    //             image: null
+    //         });
 
-            return downloadURL;
-        } catch (error) {
-            toast.error("Error uploading image :(");
-            return null;
-        }
-    }
+    //         return downloadURL;
+    //     } catch (error) {
+    //         toast.error("Error uploading image :(");
+    //         return null;
+    //     }
+    // }
 
     useEffect(() => {
         if (store.token) {
@@ -72,68 +72,78 @@ const Register = () => {
     }, []);
 
     return (
-        <div className="mx-auto my-auto flex flex-col">
-            <h1 className="text-center">Register</h1>
-            <div className="mb-3">
-                <label className="form-label">Email address</label>
-                <input type="email" className="form-control" onChange={(event) => setUser({
-                    ...user,
-                    email: event.target.value
-                })} />
-            </div>
-            <div className="mb-3">
-                <label className="form-label">Full Name</label>
-                <input type="email" className="form-control" onChange={(event) => setUser({
-                    ...user,
-                    fullName: event.target.value
-                })} />
-            </div>
-            <div className="mb-3 d-flex flex-column">
-                <label className="form-label">Profile Image</label>
-                {
-                    user.image && <img src={URL.createObjectURL(user.image)} width="100" height="100" className="img-fluid" />
-                }
-                {/* {
-                    user.image && (
-                        <button className="btn btn-success"
-                            onClick={() => uploadImage(user.image)}
-                        >
-                            Upload Image
-                        </button>)
-                } */}
-                {
-                    user.profileImageUrl && <img src={user.profileImageUrl} width="100" height="100" className="img-fluid" />
-                }
-                <input type="file" accept="image/*" className="form-control" onChange={(event) => setUser({
-                    ...user,
-                    image: event.target.files[0]
-                })} />
-            </div>
-            <div className="mb-3">
-                <label className="form-label">Password</label>
-                <div className="d-flex">
-                    <input type={showPassword ? "text" : "password"} className="form-control" onChange={(event) => setUser({
-                        ...user,
-                        password: event.target.value
-                    })} />
-                    <button className="btn btn-success"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >{showPassword ? "🔒" : "👀"}</button>
+        <div className="d-flex align-items-center justify-content-center vh-100 profile-info">
+            <div className="card px-1 py-4 mx-auto" style={{ width: "60%", border: "2px solid #F9C74F", borderRadius: "0.25rem" }}>
+                <div className="card-body">
+                    <div className="mx-auto my-auto">
+
+                        <h1 className="text-center primaryText">Register</h1>
+                        <div className="mb-3">
+                            <label className="form-label primaryText" style={{fontSize: "22px"}}>
+                                <strong>Email address</strong>
+                            </label>
+                            <input type="email" className="form-control" onChange={(event) => setUser({
+                                ...user,
+                                email: event.target.value
+                            })} />
+                        </div>
+                        <div className="mb-3">
+                            <label className="form-label primaryText" style={{fontSize: "22px"}}>
+                                <strong>Full Name</strong>
+                            </label>
+                            <input type="email" className="form-control" onChange={(event) => setUser({
+                                ...user,
+                                fullName: event.target.value
+                            })} />
+                        </div>
+                        {/* <div className="mb-3 d-flex flex-column">
+                            <label className="form-label primaryText" style={{fontSize: "22px"}}>
+                                <strong>Profile Image</strong>
+                            </label>
+                            {
+                                user.image && <img src={URL.createObjectURL(user.image)} width="100" height="100" className="img-fluid" />
+                            }
+                            {
+                                user.profileImageUrl && <img src={user.profileImageUrl} width="100" height="100" className="img-fluid" />
+                            }
+                            <input type="file" accept="image/*" className="form-control" onChange={(event) => setUser({
+                                ...user,
+                                image: event.target.files[0]
+                            })} />
+                        </div> */}
+                        <div className="mb-3">
+                            <label className="form-label primaryText" style={{fontSize: "22px"}}>
+                                <strong>Password</strong>
+                            </label>
+                            <div className="d-flex">
+                                <input type={showPassword ? "text" : "password"} className="form-control" onChange={(event) => setUser({
+                                    ...user,
+                                    password: event.target.value
+                                })} />
+                                <button className="btn btn-exitoso"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >{showPassword ? "🔒" : "👀"}</button>
+                            </div>
+                            <label className="form-label primaryText" style={{fontSize: "22px"}}>
+                                <strong>Confirm Password</strong>
+                            </label>
+                            <div className="d-flex">
+                                <input type={showPassword ? "text" : "password"} className="form-control" onChange={(event) => setUser({
+                                    ...user,
+                                    passwordConfirm: event.target.value
+                                })} />
+                                <button className="btn btn-exitoso"
+                                    onClick={() => setShowPassword(!showPassword)}
+                                >{showPassword ? "🔒" : "👀"}</button>
+                            </div>
+                        </div>
+                        <button onClick={() => registerUser(user)}
+                            className="btn btn-causa w-100 mt-2">Register</button>
+                        </div>
+
+                    </div>
                 </div>
-                <label className="form-label">Confirm Password</label>
-                <div className="d-flex">
-                    <input type={showPassword ? "text" : "password"} className="form-control" onChange={(event) => setUser({
-                        ...user,
-                        passwordConfirm: event.target.value
-                    })} />
-                    <button className="btn btn-success"
-                        onClick={() => setShowPassword(!showPassword)}
-                    >{showPassword ? "🔒" : "👀"}</button>
-                </div>
             </div>
-            <button onClick={() => registerUser(user)}
-                className="btn btn-success w-100 mt-2">Register</button>
-        </div>
     );
 };
 

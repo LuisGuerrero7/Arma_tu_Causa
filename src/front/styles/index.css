@@ -1,3 +1,72 @@
 /* 
     General Styles used on every website (Don't Repeat Yourself)
 */
+
+body{
+    background-color: #FAF3DD ;
+}
+
+.navbar{
+    background-color: #43AA8B ;
+    color: #FAF3DD ;
+}
+
+
+.btn-causa{
+    /* background-color: hsl(47, 100%, 50%);
+    color: white;*/
+    border-style: none; 
+    background-color: #F9C74F;
+    color: #277DA1  
+}
+
+.btn-causa:hover{
+    /* background-color: #ffffff;
+    color: #b87100;
+    border: 2px solid #ffc800; */
+    background-color: #277DA1 ;
+    color: #F9C74F;
+    border: 1px solid #F8961E;
+}
+
+.home-text{
+    background-color: #F9C74F;
+    color: #FAF3DD  
+    /* el color de letra puede cambiar a negro */
+}
+
+.product-card{
+    border-color: #F9C74F;
+}
+
+.btn-exitoso{
+    border-style: none; 
+    background-color: #43AA8B;
+    color: #FAF3DD  
+}
+
+.btn-exitoso:hover{
+    /* background-color: #ffffff;
+    color: #b87100;
+    border: 2px solid #ffc800; */
+    background-color: #FAF3DD ;
+    color: #43AA8B;
+    border: 1px solid #43AA8B;
+}
+
+.btn-linkk {
+    color: #277DA1;
+    text-decoration: underline;
+    text-decoration-color: #277DA1; /* Asegura que el subrayado sea del mismo color */
+    text-decoration-thickness: 1px; /* Ajusta el grosor del subrayado (opcional) */
+}
+
+
+.btn-linkk:hover{
+    color: #277DA1;
+     
+}
+
+.primaryText{
+    color: #43AA8B
+}

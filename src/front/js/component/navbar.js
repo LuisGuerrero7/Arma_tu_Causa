@@ -8,11 +8,11 @@ export const Navbar = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<nav className="navbar navbar-light bg-light border-bottom border-success">
+		<nav className="navbar border-bottom">
 			<div className="container">
 				<Link to="/" className="text-decoration-none">
 					<span className=" mb-0">
-						<h1 className="text-success fs-2" >Tacontodo</h1>
+						<h1 className="fs-2" style={{color: "#FAF3DD"}}>Arma tu causa!</h1>
 					</span>
 				</Link>
 				<div className="ml-auto flex">
@@ -30,14 +30,14 @@ export const Navbar = () => {
 					}
 
 					<Link to="/order">
-						<button className="btn btn-outline-success mx-1">
-							Arma tu 🌮
+						<button className="btn btn-causa mx-1">
+							Arma tu Causa!
 						</button>
 					</Link>
 
 
 					{!store.token && <Link to="/login">
-						<button className="btn btn-success mx-1">
+						<button className="btn btn-causa mx-1">
 							Login
 						</button>
 					</Link>}
