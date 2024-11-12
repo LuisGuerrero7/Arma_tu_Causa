@@ -2,7 +2,7 @@
 This module takes care of starting the API Server, Loading the DB and Adding the endpoints
 """
 from flask import Flask, request, jsonify, url_for, Blueprint
-from api.models import db, User, Order, Tortilla, Protein, Sauce, Cheese, Vegetable
+from api.models import db, User, Order, Papa, Protein, Sauce, Vegetable, Toppings
 from api.utils import generate_sitemap, APIException
 from flask_cors import CORS
 from datetime import datetime
@@ -103,7 +103,7 @@ def register():
     email = request.json.get("email", None)
     password = request.json.get("password", None)
     full_name = request.json.get("full_name", None)
-    profile_image = request.json.get("profile_image_url", None)
+    # profile_image = request.json.get("profile_image_url", None)
 
     if email == None or password == None:
         return jsonify({"msg": "Missing keys email or password."}), 401
@@ -121,7 +121,7 @@ def register():
 
     print( hashed_password.decode('utf-8') )
 
-    new_user = User(email=email, password=hashed_password.decode('utf-8'), salt=salt, full_name=full_name, phone=None, address=None, profile_image_url=profile_image)
+    new_user = User(email=email, password=hashed_password.decode('utf-8'), salt=salt, full_name=full_name, phone=None, address=None)  #profile_image_url=profile_image
     db.session.add(new_user)
     db.session.commit()
 
@@ -146,10 +146,10 @@ def handle_hello():
 
     return jsonify(response_body), 200
 
-@api.route('/tortillas', methods=['GET'])
-def get_tortillas():
-    tortillas = Tortilla.query.all()
-    return jsonify([ tortilla.serialize() for tortilla in tortillas ]), 200
+@api.route('/papas', methods=['GET'])
+def papas():
+    papas = Papa.query.all()
+    return jsonify([ papa.serialize() for papa in papas ]), 200
 
 
 @api.route('/orders', methods=['GET'])
@@ -167,10 +167,10 @@ def get_sauces():
     sauces = Sauce.query.all()
     return jsonify([ sauce.serialize() for sauce in sauces ]), 200
 
-@api.route('/cheeses', methods=['GET'])
-def get_cheeses():
-    cheeses = Cheese.query.all()
-    return jsonify([ cheese.serialize() for cheese in cheeses ]), 200
+@api.route('/toppings', methods=['GET'])
+def toppings():
+    toppings = Toppings.query.all()
+    return jsonify([ topping.serialize() for topping in toppings ]), 200
 
 @api.route('/vegetables', methods=['GET'])
 def get_vegetables():
@@ -186,10 +186,10 @@ def create_order():
         status=request_body["status"],
         order_datetime=datetime.now(),
         user=User.query.get(request_body["user_id"]),
-        tortilla=Tortilla.query.get(request_body["tortilla_id"]),
+        papa=Papa.query.get(request_body["papa_id"]),
         proteins=[Protein.query.get(protein_id) for protein_id in request_body["proteins"]],
         sauces=[Sauce.query.get(sauce_id) for sauce_id in request_body["sauces"]],
-        cheeses=[Cheese.query.get(cheese_id) for cheese_id in request_body["cheeses"]],
+        toppings=[Toppings.query.get(toppings_id) for toppings_id in request_body["toppings"]],
         vegetables=[Vegetable.query.get(vegetable_id) for vegetable_id in request_body["vegetables"]]
     )
 

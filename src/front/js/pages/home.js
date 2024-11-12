@@ -6,12 +6,12 @@ const Hero = () => {
 	return (
 		<div className="container home-text my-5 border border-warning">
 			<div className="p-5 text-center bg-body-tertiary rounded-3">
-				<h1>¿Cansado de los mismos sabores? 🌮 </h1>
-				<p className="lead">
-					Donde cada taco es una fiesta para tus sentidos 🪅.
-					<br />
-					Prepárate para una explosión de sabores auténticos que te harán decir "¡wow!" en cada bocado.
-				</p>
+				<h1>¡Personaliza tu causa peruana con ingredientes frescos y auténticos!</h1>
+				<h3 className="lead">
+				Escoge la base de papa, una fuente marina o proteína de tu preferencia, y complementa con verduras, 
+				frutas, salsas y toppings únicos para crear una causa hecha a tu medida. 
+				Realiza tu pedido y disfruta de una explosión de sabores peruanos en cada bocado de tu propia causa.
+				</h3>
 			</div>
 		</div>
 	);

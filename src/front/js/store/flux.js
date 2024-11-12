@@ -9,28 +9,42 @@ const getState = ({ getStore, getActions, setStore }) => {
 			tacos: [
 				{
 					id: 1,
-					name: "Taco de Carnitas",
-					description: "Un taco de carnitas es un taco que lleva carne de cerdo cocida en su propia grasa.",
-					image_url: "https://img.freepik.com/foto-gratis/deliciosa-comida-callejera-naturaleza-muerta_23-2151535325.jpg?t=st=1726542687~exp=1726546287~hmac=d38d726de63f5ad9e944ddfccfee4ca5420044db53799f89a07e9262c3116aab&w=826"
+					name: "Causa de Limeña",
+					description: "La clásica causa rellena de pollo o atún, acompañada de palta y mayonesa, con un toque de limón.",
+					image_url: "https://i.pinimg.com/564x/f1/5e/d7/f15ed7fa97e0625c4088708cc5b31c95.jpg"
 				},
 				{
 					id: 2,
-					name: "Taco de Barbacoa",
-					description: "La barbacoa es un método de cocción de carnes que consiste en asarlas en un hoyo cubierto.",
-					image_url: "https://i.pinimg.com/564x/2f/8f/bd/2f8fbd88f439fead732e62c7dfe788e4.jpg"
+					name: "Causa de Pulpa de Cangrejo",
+					description: "Causa suave y cremosa, rellena con cangrejo fresco y un toque de ají.",
+					image_url: "https://kasani.pe/wp-content/uploads/2021/09/CAUSA.jpg"
 				},
 				{
 					id: 3,
-					name: "Taco de Birria",
-					description: "La birria es un platillo típico de México, que consiste en carne de chivo, borrego o res adobada.",
-					image_url: "https://plus.unsplash.com/premium_photo-1681406995059-972cf4e86568?q=80&w=3087&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+					name: "Causa de Pulpo al Olivo",
+					description: "Una combinación única de papa y pulpo, bañada en una suave crema de olivo.",
+					image_url: "https://i.pinimg.com/564x/4a/30/5a/4a305a8567fd324f0c2511095d3f8cda.jpg"
 				},
+				// {
+				// 	id: 4,
+				// 	name: "Causa Acevichada",
+				// 	description: "Inspirada en el ceviche, con pescado fresco y una mezcla de ají y limón.",
+				// 	image_url: "https://i.pinimg.com/564x/df/8d/18/df8d18d67f7cabbabb498dc60b439c76.jpg"
+				// },
 				{
-					id: 4,
-					name: "Taco de Cabeza",
-					description: "El taco de cabeza es un taco que lleva carne de cabeza de res cocida. cebollas y cilantro.",
-					image_url: "https://i.pinimg.com/564x/40/8c/24/408c24f87e6350a9d6f84f449e7a207b.jpg"
+					id: 5,
+					name: "Causa de Camarones",
+					description: "Causa fresca con relleno de camarones, ideal para los amantes de los mariscos.",
+					image_url: "https://cdn0.recetasgratis.net/es/posts/6/7/5/causa_de_langostinos_77576_orig.jpg"
 				},
+				// {
+				// 	id: 6,
+				// 	name: "Causa de Trucha Ahumada",
+				// 	description: "Causa rellena de trucha ahumada, perfecta para los amantes de sabores intensos.",
+				// 	image_url: "https://cdn0.recetasgratis.net/es/posts/6/7/5/causa_de_langostinos_77576_orig.jpg"
+				// },
+
+
 			],
 			demo: [
 				{
@@ -78,6 +92,43 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 
+			// newOrder: async (order) => {
+
+			// 	const store = getStore();
+
+			// 	if (!store.user) {
+			// 		toast.error("You must be logged in to order");
+			// 		return;
+			// 	};
+
+			// 	const resp = await fetch(process.env.BACKEND_URL + "/api/order", {
+			// 		method: "POST",
+			// 		headers: {
+			// 			"Content-Type": "application/json"
+			// 		},
+			// 		body: JSON.stringify({
+			// 			user_id: store.user.id,
+			// 			status: "pendiente",
+			// 			tortilla_id: order.tortilla,
+			// 			proteins: order.proteins,
+			// 			vegetables: order.veggie,
+			// 			cheeses: order.cheese,
+			// 			sauces: order.salsa
+			// 		})
+			// 	});
+
+			// 	if (resp.ok) {
+			// 		toast.success("Order sent!");
+			// 	} else {
+			// 		toast.error("Error sending order");
+			// 	}
+
+			// 	const data = await resp.json();
+			// 	console.log(data);
+
+
+			// },
+
 			newOrder: async (order) => {
 
 				const store = getStore();
@@ -95,11 +146,11 @@ const getState = ({ getStore, getActions, setStore }) => {
 					body: JSON.stringify({
 						user_id: store.user.id,
 						status: "pendiente",
-						tortilla_id: order.tortilla,
+						papa_id: order.papa,
 						proteins: order.proteins,
 						vegetables: order.veggie,
-						cheeses: order.cheese,
-						sauces: order.salsa
+						sauces: order.salsa,
+						toppings: order.toppings
 					})
 				});
 
@@ -111,8 +162,6 @@ const getState = ({ getStore, getActions, setStore }) => {
 
 				const data = await resp.json();
 				console.log(data);
-
-
 			},
 
 			login: async (email, password) => {
@@ -164,7 +213,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ user: data });
 			},
 
-			register: async (email, fullName, password, profileImageUrl) => {
+			register: async (email, fullName, password) => {
 				const resp = await fetch(process.env.BACKEND_URL + "/api/register", {
 					method: "POST",
 					headers: {
@@ -174,7 +223,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 						email: email,
 						full_name: fullName,
 						password: password,
-						profile_image_url: profileImageUrl //profileImageUrl
+						// profile_image_url: profileImageUrl //profileImageUrl
 					})
 				});
 				const data = await resp.json();

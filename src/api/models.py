@@ -32,7 +32,7 @@ class User(db.Model):
     is_active = db.Column(db.Boolean(), unique=False, nullable=False)
     phone = db.Column(db.String(80), unique=False, nullable=True)
 
-    profile_image_url = db.Column(db.String(360), unique=False, nullable=True)
+    # profile_image_url = db.Column(db.String(360), unique=False, nullable=True)
 
     full_name = db.Column(db.String(120), unique=False, nullable=True)
 
@@ -40,14 +40,14 @@ class User(db.Model):
     address = db.relationship('Address', backref='user', lazy=True)
 
 
-    def __init__(self, email, password, full_name, phone, address, profile_image_url, salt):
+    def __init__(self, email, password, full_name, phone, address, salt):
         self.email = email
         self.password = password
         self.full_name = full_name
         self.phone = phone
         self.address = address
         self.is_active = True
-        self.profile_image_url = profile_image_url
+        # self.profile_image_url = profile_image_url
         self.salt = salt
 
     def __repr__(self):
@@ -60,25 +60,23 @@ class User(db.Model):
             "phone": self.phone,
             "address": self.address.serialize() if self.address else None,
             "full_name": self.full_name,
-            "profile_image_url": self.profile_image_url
+            # "profile_image_url": self.profile_image_url
             # do not serialize the password, its a security breach
         }
     
-class Tortilla(db.Model):
+class Papa(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     price = db.Column(db.Float(), unique=False, nullable=False)
-    is_gmo = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
-        return f'<Tortilla {self.name}>'
+        return f'<Papa {self.name}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
             "price": self.price,
-            "is_gmo": self.is_gmo
         }
 
 class Protein(db.Model):
@@ -131,21 +129,21 @@ class Sauce(db.Model):
             "is_spicy": self.is_spicy
         }
 
-class Cheese(db.Model):
+class Toppings(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(120), unique=False, nullable=False)
     price = db.Column(db.Float(), unique=False, nullable=False)
-    is_vegan = db.Column(db.Boolean(), unique=False, nullable=False)
+    is_spicy = db.Column(db.Boolean(), unique=False, nullable=False)
 
     def __repr__(self):
-        return f'<Cheese {self.name}>'
+        return f'<Topping {self.name}>'
 
     def serialize(self):
         return {
             "id": self.id,
             "name": self.name,
             "price": self.price,
-            "is_vegan": self.is_vegan
+            "is_spicy": self.is_spicy
         }
     
 protein_association = db.Table('protein_association',
@@ -158,9 +156,9 @@ sauce_association = db.Table('sauce_association',
     db.Column('sauce_id', db.Integer, db.ForeignKey('sauce.id'))
 )
 
-queso_association = db.Table('queso_association',
+topping_association = db.Table('topping_association',
     db.Column('order_id', db.Integer, db.ForeignKey('order.id')),
-    db.Column('cheese_id', db.Integer, db.ForeignKey('cheese.id'))
+    db.Column('toppings_id', db.Integer, db.ForeignKey('toppings.id'))
 )
 
 vegetable_association = db.Table('vegetable_association',
@@ -177,25 +175,25 @@ class Order(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     user = db.relationship('User', backref='order', lazy=True)
 
-    tortilla_id = db.Column(db.Integer, db.ForeignKey('tortilla.id'), nullable=False)
-    tortilla = db.relationship('Tortilla', backref='order', lazy=True)
+    papa_id = db.Column(db.Integer, db.ForeignKey('papa.id'), nullable=False)
+    papa = db.relationship('Papa', backref='order', lazy=True)
 
     proteins = db.relationship('Protein', secondary=protein_association, backref='order', lazy=True)
     sauces = db.relationship('Sauce', secondary=sauce_association, backref='order', lazy=True)
-    cheeses = db.relationship('Cheese', secondary=queso_association, backref='order', lazy=True)
+    toppings = db.relationship('Toppings', secondary=topping_association, backref='order', lazy=True)
     vegetables = db.relationship('Vegetable', secondary=vegetable_association, backref='order', lazy=True)
 
 
-    def __init__(self, status, order_datetime, user, tortilla, vegetables, proteins, sauces, cheeses):
+    def __init__(self, status, order_datetime, user, papa, vegetables, proteins, sauces, toppings):
         self.status = status
         self.order_datetime = order_datetime
         
         self.user = user
-        self.tortilla = tortilla
+        self.papa = papa
 
         self.proteins = proteins
         self.sauces = sauces
-        self.cheeses = cheeses
+        self.toppings = toppings
         self.vegetables = vegetables
 
     def __repr__(self):
@@ -206,18 +204,18 @@ class Order(db.Model):
             "id": self.id,
             "status": self.status,
             "order_datetime": self.order_datetime,
-            "tortilla": self.tortilla.serialize(),
+            "papa": self.papa.serialize(),
             "proteins": [protein.serialize() for protein in self.proteins],
             # "total": self.total,
             "sauces": [sauce.serialize() for sauce in self.sauces],
-            "cheeses": [cheese.serialize() for cheese in self.cheeses],
+            "toppings": [topping.serialize() for topping in self.toppings],
             "vegetables": [vegetable.serialize() for vegetable in self.vegetables],
             
             "total": sum([protein.price for protein in self.proteins]) +
             sum([sauce.price for sauce in self.sauces]) +
-            sum([cheese.price for cheese in self.cheeses]) +
+            sum([topping.price for topping in self.toppings]) +
             sum([vegetable.price for vegetable in self.vegetables])
-             + self.tortilla.price,
+             + self.papa.price,
             "user": self.user.serialize()
         }
 
@@ -228,9 +226,9 @@ class Order(db.Model):
             "order_datetime": self.order_datetime,
             "total": sum([protein.price for protein in self.proteins]) +
             sum([sauce.price for sauce in self.sauces]) +
-            sum([cheese.price for cheese in self.cheeses]) +
+            sum([topping.price for topping in self.toppings]) +
             sum([vegetable.price for vegetable in self.vegetables])
-             + self.tortilla.price,
+             + self.papa.price,
             
             "user": self.user.serialize()
         }
