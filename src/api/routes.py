@@ -31,12 +31,9 @@ CORS(api)
 def send_email():
 
     message = MIMEMultipart("alternative")
-    message["Subject"] = "Tacos App - Order Confirmation"
+    message["Subject"] = "Arma tu Causa - Order Confirmation"
     message["From"] = sender_email
-    recipients = ["cdalzate91@gmail.com", "mrguidoc@gmail.com",
-                    "kevtorricov@gmail.com",
-                      "adrianaisea99@gmail.com", "alexriascos159@gmail.com", 
-                      "yshungria@unal.edu.co", "cesarrrr2003@gmail.com"
+    recipients = ["luis.guerrero.castro5@gmail.com"
                     ]
     
     message["To"] = ", ".join(recipients)
@@ -46,8 +43,8 @@ def send_email():
     html_content = """
         <html>
             <body>
-                <h1 style="color:green;">Your Tacos will arrive Soon 🌮!</h1>
-                <p>This email is sent using <b>Tacostoso Backend</b> and Gmail's SMTP server.</p>
+                <h1 style="color:green;">Your Causa will arrive Soon!</h1>
+                <p>This email is sent using <b>Arma Tu Causa Backend</b> and Gmail's SMTP server.</p>
             </body>
         </html>
     """
@@ -147,7 +144,7 @@ def handle_hello():
     return jsonify(response_body), 200
 
 @api.route('/papas', methods=['GET'])
-def papas():
+def get_papas():
     papas = Papa.query.all()
     return jsonify([ papa.serialize() for papa in papas ]), 200
 
@@ -168,7 +165,7 @@ def get_sauces():
     return jsonify([ sauce.serialize() for sauce in sauces ]), 200
 
 @api.route('/toppings', methods=['GET'])
-def toppings():
+def get_toppings():
     toppings = Toppings.query.all()
     return jsonify([ topping.serialize() for topping in toppings ]), 200
 
@@ -180,7 +177,6 @@ def get_vegetables():
 @api.route('/order', methods=['POST'])
 def create_order():
     request_body = request.get_json()
-
 
     new_order = Order(
         status=request_body["status"],

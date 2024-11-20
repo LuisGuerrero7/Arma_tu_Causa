@@ -12,7 +12,9 @@ import injectContext from "./store/appContext";
 import { Navbar } from "./component/navbar";
 import { Footer } from "./component/footer";
 
-import OrderTaco from "./pages/order_taco";
+import { Order } from "./pages/order";
+
+import { OrderCausa } from "./pages/orderCausa";
 import Login from "./pages/login";
 import Register from "./pages/register";
 
@@ -32,7 +34,7 @@ const Layout = () => {
                     <Routes>
                         <Route element={<Home />} path="/" />
                         <Route element={<Demo />} path="/demo" />
-                        <Route element={<OrderTaco />} path="/order" />
+                        <Route element={<Order />} path="/order" />
                         <Route element={<Single />} path="/single/:theid" />
 
                         <Route element={<Login />} path="/login" />

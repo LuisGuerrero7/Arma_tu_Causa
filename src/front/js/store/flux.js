@@ -6,7 +6,7 @@ const getState = ({ getStore, getActions, setStore }) => {
 			user: null,
 			token: localStorage.getItem("token") || null,
 			message: null,
-			tacos: [
+			causas: [
 				{
 					id: 1,
 					name: "Causa de Limeña",
@@ -43,8 +43,181 @@ const getState = ({ getStore, getActions, setStore }) => {
 				// 	description: "Causa rellena de trucha ahumada, perfecta para los amantes de sabores intensos.",
 				// 	image_url: "https://cdn0.recetasgratis.net/es/posts/6/7/5/causa_de_langostinos_77576_orig.jpg"
 				// },
-
-
+			],
+			papa: [
+				{
+					id: 1,
+					name: "Papa Amarilla",
+					price: "$3"
+				},
+				{
+					id: 2,
+					name: "Papa Blanca",
+					price: "$2"
+				},
+				{
+					id: 3,
+					name: "Papa Huayro",
+					price: "$3"
+				},
+			],
+			proteina: [
+				{
+					id: 1,
+					name: "Pollo",
+					price: "$4"
+				},
+				{
+					id: 2,
+					name: "Atún",
+					price: "$4"
+				},
+				{
+					id: 3,
+					name: "Pesca del día",
+					price: "$6"
+				},
+				{
+					id: 4,
+					name: "Pulpo",
+					price: "$8"
+				},
+				{
+					id: 5,
+					name: "Langostinos",
+					price: "$6"
+				},
+				{
+					id: 6,
+					name: "Camarones",
+					price: "$6"
+				},
+				{
+					id: 7,
+					name: "Calamar",
+					price: "$6"
+				},
+				{
+					id: 8,
+					name: "Pulpa de Cangrejo",
+					price: "$8"
+				},
+				{
+					id: 9,
+					name: "Salmón",
+					price: "$9"
+				}
+			],
+			verduras: [
+				{
+					id: 1,
+					name: "Palta",
+					price: "$2"
+				},
+				{
+					id:2,
+					name: "Palta Fuerte",
+					price: "$2.5"
+				},
+				{
+					id: 3,
+					name: "Choclo",
+					price: "$1"
+				},
+				{
+					id:4,
+					name: "Tomate Cherry",
+					price: "$1"
+				},
+				{
+					id:5,
+					name:"Pepino",
+					price: "$1"
+				},
+				{
+					id:6,
+					name:"Cebolla Roja",
+					price: "$1"
+				},
+				{
+					id:7,
+					name:"Aceitunas negras",
+					price: "$1"
+				},
+				{
+					id: 8,
+					name: "Mango",
+					price: "$2"
+				},
+			],
+			salsas:[
+				{
+					id:1,
+					name: "Tártara",
+					price: "$0.5"
+				},
+				{
+					id:2,
+					name: "Huancaína",
+					price: "$1"
+				},
+				{
+					id:3,
+					name:"Olivo",
+					price: "$1.5"
+				},
+				{
+					id:4,
+					name:"Acevichada",
+					price: "$1.5"
+				},
+				{
+					id:5,
+					name:"Golf",
+					price:"$1"
+				},
+				{
+					id:6,
+					name:"Mayonesa",
+					price:"$0.5"
+				}	
+			],
+			toppings: [
+				{
+					id: 1,
+					name: "Huevos Sancochado",
+					price: "$1"
+				},
+				{
+					id: 2,
+					name: "Rocoto",
+					price: "$1"
+				},
+				{
+					id:3,
+					name:"Chifles",
+					price:"$0.5"
+				},
+				{
+					id:3,
+					name:"Perejil",
+					price: "$0.25"
+				},
+				{
+					id:4,
+					name:"Cebolla China",
+					price:"$0.25"
+				},
+				{
+					id:5,
+					name:"Hilos de Camote",
+					price: "$0.5"
+				},
+				{
+					id:6,
+					name:"Alcaparras",
+					price:"$2"
+				}
 			],
 			demo: [
 				{
@@ -92,77 +265,63 @@ const getState = ({ getStore, getActions, setStore }) => {
 				setStore({ demo: demo });
 			},
 
-			// newOrder: async (order) => {
+			getPapas: async () => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/papas");
+                const data = await response.json();
+                setStore({ papa: data });
+            },
+            getProteinas: async () => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/proteins");
+                const data = await response.json();
+                setStore({ proteina: data });
+            },
+            getVerduras: async () => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/vegetables");
+                const data = await response.json();
+                setStore({ verduras: data });
+            },
+            getSalsas: async () => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/sauces");
+                const data = await response.json();
+                setStore({ salsas: data });
+            },
+            getToppings: async () => {
+                const response = await fetch(process.env.BACKEND_URL + "/api/toppings");
+                const data = await response.json();
+                setStore({ toppings: data });
+            },
 
-			// 	const store = getStore();
+			loadInitialData: () => {
+                const actions = getActions();
+                actions.getPapas();
+                actions.getProteinas();
+                actions.getVerduras();
+                actions.getSalsas();
+                actions.getToppings();
+            },
 
-			// 	if (!store.user) {
-			// 		toast.error("You must be logged in to order");
-			// 		return;
-			// 	};
-
-			// 	const resp = await fetch(process.env.BACKEND_URL + "/api/order", {
-			// 		method: "POST",
-			// 		headers: {
-			// 			"Content-Type": "application/json"
-			// 		},
-			// 		body: JSON.stringify({
-			// 			user_id: store.user.id,
-			// 			status: "pendiente",
-			// 			tortilla_id: order.tortilla,
-			// 			proteins: order.proteins,
-			// 			vegetables: order.veggie,
-			// 			cheeses: order.cheese,
-			// 			sauces: order.salsa
-			// 		})
-			// 	});
-
-			// 	if (resp.ok) {
-			// 		toast.success("Order sent!");
-			// 	} else {
-			// 		toast.error("Error sending order");
-			// 	}
-
-			// 	const data = await resp.json();
-			// 	console.log(data);
-
-
-			// },
-
-			newOrder: async (order) => {
-
-				const store = getStore();
-
-				if (!store.user) {
-					toast.error("You must be logged in to order");
-					return;
-				};
-
-				const resp = await fetch(process.env.BACKEND_URL + "/api/order", {
-					method: "POST",
-					headers: {
-						"Content-Type": "application/json"
-					},
-					body: JSON.stringify({
-						user_id: store.user.id,
-						status: "pendiente",
-						papa_id: order.papa,
-						proteins: order.proteins,
-						vegetables: order.veggie,
-						sauces: order.salsa,
-						toppings: order.toppings
-					})
-				});
-
-				if (resp.ok) {
-					toast.success("Order sent!");
-				} else {
-					toast.error("Error sending order");
-				}
-
-				const data = await resp.json();
-				console.log(data);
-			},
+            newOrder: async (order) => {
+                const store = getStore();
+                if (!store.user) {
+                    toast.error("You must be logged in to order");
+                    return;
+                }
+                const resp = await fetch(process.env.BACKEND_URL + "/api/order", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+					
+                    body: JSON.stringify({
+                        user_id: store.user.id,
+                        status: "pendiente",
+                        papa_id: order.papa,
+                        proteins: order.proteins,
+                        vegetables: order.veggies,
+                        sauces: order.salsas,
+                        toppings: order.toppings
+                    })
+                });
+                resp.ok ? toast.success("Order sent!") : toast.error("Error sending order");
+            },
 
 			login: async (email, password) => {
 				const resp = await fetch(process.env.BACKEND_URL + "/api/login", {

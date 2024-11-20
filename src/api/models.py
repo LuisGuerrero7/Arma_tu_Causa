@@ -169,7 +169,6 @@ vegetable_association = db.Table('vegetable_association',
 class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     status = db.Column(db.String(120), unique=False, nullable=False)
-    # total = db.Column(db.Float(), unique=False, nullable=False)
     order_datetime = db.Column(db.DateTime, unique=False, nullable=False)
 
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
@@ -183,52 +182,12 @@ class Order(db.Model):
     toppings = db.relationship('Toppings', secondary=topping_association, backref='order', lazy=True)
     vegetables = db.relationship('Vegetable', secondary=vegetable_association, backref='order', lazy=True)
 
-
     def __init__(self, status, order_datetime, user, papa, vegetables, proteins, sauces, toppings):
         self.status = status
         self.order_datetime = order_datetime
-        
         self.user = user
         self.papa = papa
-
         self.proteins = proteins
         self.sauces = sauces
         self.toppings = toppings
         self.vegetables = vegetables
-
-    def __repr__(self):
-        return f'<Order {self.id}>'
-
-    def serialize(self):
-        return {
-            "id": self.id,
-            "status": self.status,
-            "order_datetime": self.order_datetime,
-            "papa": self.papa.serialize(),
-            "proteins": [protein.serialize() for protein in self.proteins],
-            # "total": self.total,
-            "sauces": [sauce.serialize() for sauce in self.sauces],
-            "toppings": [topping.serialize() for topping in self.toppings],
-            "vegetables": [vegetable.serialize() for vegetable in self.vegetables],
-            
-            "total": sum([protein.price for protein in self.proteins]) +
-            sum([sauce.price for sauce in self.sauces]) +
-            sum([topping.price for topping in self.toppings]) +
-            sum([vegetable.price for vegetable in self.vegetables])
-             + self.papa.price,
-            "user": self.user.serialize()
-        }
-
-    def simple_serialize(self):
-        return {
-            "id": self.id,
-            "status": self.status,
-            "order_datetime": self.order_datetime,
-            "total": sum([protein.price for protein in self.proteins]) +
-            sum([sauce.price for sauce in self.sauces]) +
-            sum([topping.price for topping in self.toppings]) +
-            sum([vegetable.price for vegetable in self.vegetables])
-             + self.papa.price,
-            
-            "user": self.user.serialize()
-        }

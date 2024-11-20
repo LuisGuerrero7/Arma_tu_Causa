@@ -25,7 +25,7 @@ export const Home = () => {
 			<Hero />
 			<div className="container">
 				<div className="d-flex flex-wrap">
-					{store.tacos.map((product, index) => {
+					{store.causas.map((product, index) => {
 						return <ProductCard key={index} product={product} />;
 					})}
 				</div>

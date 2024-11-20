@@ -24,7 +24,7 @@ export const Navbar = () => {
 						</div>
 					} */}
 					{
-						store.user && <Link to="/profile" className="mx-1">
+						store.user && <Link to="/profile" className="mx-1 btn btn-causa" >
 							{store.user.full_name}
 						</Link>
 					}
