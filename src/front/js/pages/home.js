@@ -21,7 +21,7 @@ export const Home = () => {
 	const { store, actions } = useContext(Context);
 
 	return (
-		<div className="d-flex flex-column justify-content-center w-full">
+		<div className="d-flex flex-column justify-content-center w-full mb-5 pb-5">
 			<Hero />
 			<div className="container">
 				<div className="d-flex flex-wrap">
