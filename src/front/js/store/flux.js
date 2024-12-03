@@ -199,22 +199,22 @@ const getState = ({ getStore, getActions, setStore }) => {
 					price:"$0.5"
 				},
 				{
-					id:3,
+					id:4,
 					name:"Perejil",
 					price: "$0.25"
 				},
 				{
-					id:4,
+					id:5,
 					name:"Cebolla China",
 					price:"$0.25"
 				},
 				{
-					id:5,
+					id:6,
 					name:"Hilos de Camote",
 					price: "$0.5"
 				},
 				{
-					id:6,
+					id:7,
 					name:"Alcaparras",
 					price:"$2"
 				}
@@ -314,8 +314,8 @@ const getState = ({ getStore, getActions, setStore }) => {
                         user_id: store.user.id,
                         status: "pendiente",
                         papa_id: order.papa,
-                        proteins: order.proteins,
-                        vegetables: order.veggies,
+                        proteins: order.proteina,
+                        vegetables: order.verduras,
                         sauces: order.salsas,
                         toppings: order.toppings
                     })
